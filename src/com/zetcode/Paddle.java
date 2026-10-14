@@ -1,8 +1,8 @@
 package com.zetcode;
 
 import java.awt.event.KeyEvent;
-import javax.swing.ImageIcon;
 
+// SINGLETON CLIENT
 public class Paddle extends Sprite  {
 
     private int dx;
@@ -20,11 +20,12 @@ public class Paddle extends Sprite  {
         resetState();
     }
     
+    
     private void loadImage() {
-        
-        var ii = new ImageIcon("src/resources/paddle.png");
-        image = ii.getImage();        
-    }    
+
+        ResourceManager resources = ResourceManager.getInstance();
+        image = resources.getPaddleImage();
+    }
 
     void move() {
 

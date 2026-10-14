@@ -1,7 +1,6 @@
 package com.zetcode;
 
-import javax.swing.ImageIcon;
-
+// SINGLETON CLIENT
 public class Ball extends Sprite {
 
     private int xdir;
@@ -22,10 +21,11 @@ public class Ball extends Sprite {
         resetState();
     }
 
+    
     private void loadImage() {
 
-        var ii = new ImageIcon("src/resources/ball.png");
-        image = ii.getImage();
+        ResourceManager resources = ResourceManager.getInstance();
+        image = resources.getBallImage();
     }
 
     void move() {

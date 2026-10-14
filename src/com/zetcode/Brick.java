@@ -1,7 +1,6 @@
 package com.zetcode;
 
-import javax.swing.ImageIcon;
-
+// SINGLETON CLIENT
 public class Brick extends Sprite {
 
     private boolean destroyed;
@@ -22,10 +21,11 @@ public class Brick extends Sprite {
         getImageDimensions();
     }
     
+    
     private void loadImage() {
-        
-        var ii = new ImageIcon("src/resources/brick.png");
-        image = ii.getImage();        
+
+        ResourceManager resources = ResourceManager.getInstance();
+        image = resources.getBrickImage();
     }
 
     boolean isDestroyed() {
@@ -34,7 +34,7 @@ public class Brick extends Sprite {
     }
 
     void setDestroyed(boolean val) {
-        
+
         destroyed = val;
     }
 }

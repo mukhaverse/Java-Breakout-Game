@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+// BUILDER CLIENT uses the director 
 public class Board extends JPanel {
 
     private Timer timer;
@@ -25,7 +26,13 @@ public class Board extends JPanel {
     private Brick[] bricks;
     private boolean inGame = true;
 
-    public Board() {
+    
+    private final LevelBuilder levelBuilder;
+
+    //builder received from Breakout
+    public Board(LevelBuilder levelBuilder) {
+
+        this.levelBuilder = levelBuilder;
 
         initBoard();
     }
@@ -41,21 +48,16 @@ public class Board extends JPanel {
 
     private void gameInit() {
 
-        bricks = new Brick[Commons.N_OF_BRICKS];
+        
+        var director = new LevelDirector(levelBuilder);
+        director.makeLevel();
 
-        ball = new Ball();
-        paddle = new Paddle();
+        //هنا كل المعمعة خلصت بس نستخرج الليفل
+        Level level = director.getLevel();
 
-        int k = 0;
-
-        for (int i = 0; i < 5; i++) {
-
-            for (int j = 0; j < 6; j++) {
-
-                bricks[k] = new Brick(j * 40 + 30, i * 10 + 50);
-                k++;
-            }
-        }
+        paddle = level.getPaddle();
+        ball = level.getBall();
+        bricks = level.getBricks();
 
         timer = new Timer(Commons.PERIOD, new GameCycle());
         timer.start();
@@ -91,7 +93,8 @@ public class Board extends JPanel {
         g2d.drawImage(paddle.getImage(), paddle.getX(), paddle.getY(),
                 paddle.getImageWidth(), paddle.getImageHeight(), this);
 
-        for (int i = 0; i < Commons.N_OF_BRICKS; i++) {
+        
+        for (int i = 0; i < bricks.length; i++) {
 
             if (!bricks[i].isDestroyed()) {
 
@@ -159,14 +162,15 @@ public class Board extends JPanel {
             stopGame();
         }
 
-        for (int i = 0, j = 0; i < Commons.N_OF_BRICKS; i++) {
+        
+        for (int i = 0, j = 0; i < bricks.length; i++) {
 
             if (bricks[i].isDestroyed()) {
 
                 j++;
             }
 
-            if (j == Commons.N_OF_BRICKS) {
+            if (j == bricks.length) {
 
                 message = "Victory";
                 stopGame();
@@ -214,7 +218,8 @@ public class Board extends JPanel {
             }
         }
 
-        for (int i = 0; i < Commons.N_OF_BRICKS; i++) {
+        
+        for (int i = 0; i < bricks.length; i++) {
 
             if ((ball.getRect()).intersects(bricks[i].getRect())) {
 
