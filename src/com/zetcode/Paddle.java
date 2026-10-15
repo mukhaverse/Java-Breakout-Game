@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 public class Paddle extends Sprite  {
 
     private int dx;
+    private int tick;
 
     public Paddle() {
         
@@ -30,6 +31,11 @@ public class Paddle extends Sprite  {
     void move() {
 
         x += dx;
+
+        if (++tick % 2 == 0) {
+
+            x += dx;
+        }
 
         if (x <= 0) {
 

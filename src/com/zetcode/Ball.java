@@ -5,6 +5,7 @@ public class Ball extends Sprite {
 
     private int xdir;
     private int ydir;
+    private int tick;
 
     public Ball() {
 
@@ -29,6 +30,16 @@ public class Ball extends Sprite {
     }
 
     void move() {
+
+        step();
+
+        if (++tick % 2 == 0) {
+
+            step();
+        }
+    }
+
+    private void step() {
 
         x += xdir;
         y += ydir;
